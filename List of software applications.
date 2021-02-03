@@ -1,0 +1,152 @@
+#include<stdio.h>
+#include <stdlib.h>
+
+struct software_applications {
+    char name[50];
+    char author[50];
+    int version;
+    int publishingYear;
+    int price;
+};
+
+void displayDetails(struct software_application[int i]){
+    printf("----------------------------------");
+    printf("Name: %s",software_application[i].name);
+    printf("Author: %s", software_application[i].author);
+    printf("Version: %d", software_application[i].version);
+    printf("Publishing Year: %d", software_application[i].publishingYear);
+    printf("Price: %d", software_application[i].price);
+    printf("----------------------------------");
+}
+
+int comparatorForPrice(const void* p, const void* q) 
+{ 
+    return strcmp(((struct software_applications*)p)->price, 
+                  ((struct software_applications*)q)->price); 
+} 
+
+int comparatorForAuthor(const void* p, const void* q) 
+{ 
+    return strcmp(((struct software_applications*)p)->author, 
+                  ((struct software_applications*)q)->author); 
+} 
+
+int comparatorForPublishingYear(const void* p, const void* q) 
+{ 
+    return strcmp(((struct software_applications*)p)->publishingYear, 
+                  ((struct software_applications*)q)->publishingYear); 
+} 
+
+void sortByAuthorAndPublishingYear(struct software_applications[], int size){
+	qsort(software_applications, size, sizeof(struct software_applications), comparatorForAuthor);
+	qsort(software_applications, size, sizeof(struct software_applications), comparatorForPublishingYear);
+}
+
+void sortByPrice(struct software_applications[], int size){
+    qsort(software_applications, size, sizeof(struct software_applications), comparatorForPrice);
+}
+
+void displayByAuthor(struct software_applications[], char given_author[50], int size){
+    for(int i=0;i<size;i++){
+        if(strcmp(software_applications[i].author, given_author)){
+            displayDetails(software_applications[i]);
+        }
+    }
+}
+void displayByPublisherAndYear(struct software_applications[], char publisher[50],int year, int size){
+    for(int i=0;i<size;i++){
+        if(strcmp(software_applications[i].name, publisher) && software_applications[i].publishingYear==year){
+            displayDetails(software_applications[i]);
+        }
+    }
+}
+int main()
+{
+	struct software_application[5];
+	
+	
+	//making list of software application
+	software_application[0].name = "Google Chrome";
+    software_application[0].author = "Linus_Upson";
+    software_application[0].version = 88;
+    software_application[0].publishingYear = 2021;
+    software_application[0].price = 3499;
+    
+    software_application[1].name = "Adobe Reader";
+    software_application[1].author = "John Warnock";
+    software_application[1].version = 10.0;
+    software_application[1].publishingYear = 1993;
+    software_application[1].price = 0;
+    
+    software_application[2].name = "7 Zip";
+    software_application[2].author = "Igor Pavlov";
+    software_application[2].version = 19;
+    software_application[2].publishingYear = 1999;
+    software_application[2].price = 0;
+    
+    software_application[3].name = "Sophos AntiVirus";
+    software_application[3].author = "Jan Hruska";
+    software_application[3].version = 10.8;
+    software_application[3].publishingYear = 1985;
+    software_application[3].price = 14,974;
+    
+    software_application[4].name = "PuTTY";
+    software_application[4].author = "Simon Tatham";
+    software_application[4].version = 0.74;
+    software_application[4].publishingYear = 1999;
+    software_application[4].price = 0;
+    
+    
+    
+	
+	 
+	printf("...WELCOME...\n");
+	int continous=0,size=5;
+	do{
+		printf("Please enter the appropriate Digit for performing the specific query..\n");
+		printf("1 :Display all the details of application by a given author.\n");
+		printf("2 :Sort the details of application in the incresing order of price.\n");
+		printf("3 :Display the details of application published by a given publisher in a given year\n");
+		printf("4 :Sort the list of applications in the incresing order of author and publishing year.\n");
+		int option;
+		scanf("%d",&option);
+		switch(option)
+		{
+			case 1:
+				printf("\nPlease enter the author name: ");
+				char given_author[50];
+				scanf("%s",given_author);
+				printf("\nDetails of application: ");
+				displayByAuthor(software_applications[],given_author,size);//size 10
+				break;
+			
+			case 2:
+				printf("\nIncresing order of price\n");
+				sortByPrice(software_applications[],size);//10
+				break;
+				
+			case 3:
+				printf("\nPlease enter the publisher and publishing year: ");
+				int year;
+				char publisher[50];
+				scanf("%s %d",publisher,&year);
+				printf("\nDetails of application: ");
+				displayByPublisherAndYear(software_applications,publisher,year);
+				break;
+				
+			case 4:
+				printf("\nIncresing order of author and publishing year\n");
+				sortByAuthorAndPublishingYear(software_applications[],size);//10
+				break;
+		}
+		
+		printf("\nDo you want to performing more query\n");
+		printf("1 : YES\n");
+		printf("0 : No\n");
+		scanf("%d ",&continous);
+
+	}while(continous);
+	printf("\n...THANK YOU...");
+    
+
+}
